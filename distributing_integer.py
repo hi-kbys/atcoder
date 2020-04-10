@@ -1,4 +1,5 @@
 import math
+from functools import lru_cache
 
 def memoize(func):
     table = {}
@@ -8,33 +9,31 @@ def memoize(func):
         return table[args]
     return add_table
 
-def get_size(root, parent):
-    branch = Adjascent[root].remove(parent)
-    size = 1
-    if len(branch) == 0:
-        pass
+@lru_cache
+def size(root, parent):
+    Ad =  Adjascent[root]
+    if parent != -1:
+        Ad = Ad.remove(parent)
+    size=1
+    if Ad == []:
+        return size 
     else: 
-        for e in branch:
-            size += get_size(e,root)
+        for child in Ad:
+            size += get_size(child,root)
     return size
+    Ad =  Adjascent[root]
 
-def dp(root):
-    ret = []
-    return ret
-    for child in Adjascent[root]:
-        coef = math.factorial(size(root)-1)
-        ret.append(dp_with_parent(child,root))
-    def dp_with_parent(root, parent):
-        upper = [s if s > parent for s in Adjascent[root]]
-        lower = [s if s < parent for s in Adjascent[root]]
-        if len(branch) == 0:
-            ret = 1
-        else:
+@lru_cache
+def dp(root,parent):
+    if parent != -1:
+        Ad = Ad.remove(parent)
+    if Ad == []:
+        ret = 1
+    else:
+        for child in Ad:
+            coef = math.factorial(size(root)-1)
             ret = math.factorial(get_size(v)-1)
-            for u in upper.sort(reverse=True):
-                ret *= dp_with_parent(u,root)/math.factorial(get_size(u,root))
-            for v in lower:
-                
+            ret *= dp_with_parent(u,root)/math.factorial(get_size(u,root))
     return int(ret)   
 
 if __name__ == "__main__":
@@ -48,6 +47,5 @@ if __name__ == "__main__":
             Adjascent[b] = []
         Adjascent[a].append(b)
         Adjascent[b].append(a)
-    
-    #print(dp(1))
-  
+    for i in range(N)
+        print(dp(i+1,-1))
