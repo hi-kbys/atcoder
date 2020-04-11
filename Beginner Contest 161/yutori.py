@@ -3,30 +3,32 @@ def yutori():
     N, K, C = map(int,sys.stdin.readline().split())
     S = [i for i in sys.stdin.readline()]
     l = [i+1 for i in range(N) if S[i] == 'o']
-    Left = [0]*K
-    Right = [0]*K
-    count = 0
+    Left = []
+    Right = []
     for u in l:
-        if Left[0] == 0:
-            Left[count] = u
-        if u > Left[count] + C:
-            count +=1
-            Left[count] = u
-        continue
+        if Left == []:
+            Left.append(u)
+        if u > Left[-1] + C:
+            Left.append(u)
+        if len(Left) == K:
+            break
 
-    count = 1
+    if len(Left) <K:
+        exit()
+
     for u in l[::-1]:
-        if Right[-1] == 0:
-            Right[-count] = u
-        if u < Right[-count] - C:
-            count +=1
-            Right[-count] = u
-        continue
+        if Right== []:
+            Right.append(u)
+        if u < Right[-1] - C:
+            Right.append(u)
+        if len(Right) == K:
+            break
 
-    if Left[-1] == 0 or Right [0] == 0:
-        return 
+    if len(Right) <K:
+            exit()
+    
     for i in range(K):
-        if Left[i] == Right[i]:
+        if Left[i] == Right[-i-1]:
             print(Left[i])
 
 yutori()
