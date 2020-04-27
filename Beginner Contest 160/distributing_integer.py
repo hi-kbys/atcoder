@@ -1,30 +1,12 @@
 import math
 from functools import lru_cache
+import sys
 
-def memoize(func):
-    table = {}
-    def add_table(*args):
-        if not args in table:
-            table[args] = func(*args)
-        return table[args]
-    return add_table
+def ncr(n,r):
+    return math.factorial(n)/(math.factorial(r)*math.factorial(n-r))
 
-@lru_cache
-def size(root, parent):
-    Ad =  Adjascent[root]
-    if parent != -1:
-        Ad = Ad.remove(parent)
-    size=1
-    if Ad == []:
-        return size 
-    else: 
-        for child in Ad:
-            size += get_size(child,root)
-    return size
-    Ad =  Adjascent[root]
 
-@lru_cache
-def dp(root,parent):
+def merge(root,parent):
     if parent != -1:
         Ad = Ad.remove(parent)
     if Ad == []:
@@ -33,19 +15,47 @@ def dp(root,parent):
         for child in Ad:
             coef = math.factorial(size(root)-1)
             ret = math.factorial(get_size(v)-1)
-            ret *= dp_with_parent(u,root)/math.factorial(get_size(u,root))
+            ret *= dp(u,root)/math.factorial(size(u,root))
     return int(ret)   
 
-if __name__ == "__main__":
-    N = int(input())
-    Adjascent = {}
-    for i in range(1,N):
-        a,b = map(int, input().split())
-        if not a in Adjascent:
-            Adjascent[a] = []
-        if not b in Adjascent: 
-            Adjascent[b] = []
-        Adjascent[a].append(b)
-        Adjascent[b].append(a)
-    for i in range(N)
-        print(dp(i+1,-1))
+
+input = sys.stdin.buffer.readline
+N = int(input())
+
+mod = 10**9 +7
+adj = [[] for _ in range(N+1)]
+for _ in range(N-1):
+    a,b = map(int, input().split())
+    adj[a].append(b)
+    adj[b].append(a)
+
+order = []
+stack = [1]
+parent = [0]*(N+1)
+while stack:
+    node = stack.pop()
+    order.append(node)
+    for v in adj[node]:
+        if v == parent[node]:
+            continue
+        stack.append(v)
+        parent[v] = node
+print(order)
+
+size_d = [0]*(N+1)
+dp_d = [1]*(N+1)
+
+for v in order[::-1]:
+    dp_d[v] *= fact[size_d[v]]
+    dp_d[v] %= mod
+    p = parent[v]
+    s = size_d[v] + 1
+    size_d[p] += s
+    dp_d[p] *= fact_inv[s] * dp_d[v]
+    dp_d[p] %= mod
+
+for i in order[1:]:
+        dp[i] = ncr(N,size[v])*dp[v]/(ncr(size[v]-1,size[i]))%mod
+print(size[1:])
+for i in dp[1:]:
+    print(int(i))
