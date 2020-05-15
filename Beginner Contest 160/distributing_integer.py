@@ -22,10 +22,10 @@ def merge(root,parent):
 input = sys.stdin.buffer.readline
 N = int(input())
 
-mod = 10**9 +7
+mod = 10**9 + 7
 adj = [[] for _ in range(N+1)]
 for _ in range(N-1):
-    a,b = map(int, input().split())
+    a, b = map(int, input().split())
     adj[a].append(b)
     adj[b].append(a)
 
