@@ -1,4 +1,3 @@
-# 階乗の計算をmodで割る
 class Combination():
     def __init__(self, n, mod=10**9+7):
         self.mod = mod
@@ -20,10 +19,9 @@ class Combination():
         return self.invfac[i]
 
 
-# 全方位木dp, 適宜計算用のクラスを継承して使用する。
-class Rerooting():
-    def __init__(self, adjacent):
-        #super(Rerooting, self).__init__(n, mod)
+class Rerooting(Combination):
+    def __init__(self, adjacent, n, mod):
+        super(Rerooting, self).__init__(n, mod)
         self.n = n
         self.adj = adjacent   # 0-indexedの配列で用意！
         # DFSで行きがけ順を記録
@@ -41,10 +39,19 @@ class Rerooting():
     
     def merge(self, parent, child):
         # childの値をparentに統合する処理
+        self.size[parent] += self.size[child]
+        self.dp[parent] *= self.combination(self.size[parent] - 1, self.size[child])
+        self.dp[parent] %= self.mod
+        self.dp[parent] *= self.dp[child]
+        self.dp[parent] %= self.mod
         return self.dp[parent]
 
     def remerge(self, parent, child):
         # childの値が根となるときの統合処理
+        self.dp[child] = self.size[child]*self.dp[parent]
+        # //=だとおそらく誤差に殺される。　　
+        self.dp[child] *= pow(self.n-self.size[child], self.mod - 2, self.mod)
+        self.dp[child] %= self.mod
         return self.dp[child]
 
     def calc_subtree(self):
@@ -58,53 +65,31 @@ class Rerooting():
             self.merge(self.parent[node], node)
 
     def root_subtree(self):
-        # 行きがけ順で根を更新する。
+        # 行きがけ順で
         for node in self.order[1:]:
             p = self.parent[node]
             self.remerge(p, node)
         return self.dp
+        
 
-# 01での全探索
-def bit_search(N):
-    for i in range(2**N):
-        for j in range(N):
-            # bit 演算！j桁ずらしている。
-            if ((i >> j) & 1) == 1:
-                # task
+def main():
+    import sys
+    input = lambda: sys.stdin.buffer.readline().rstrip()
+    n = int(input())
+    mod = 10**9 + 7
+    adj = [[] for i in range(n)]
+    for i in range(n-1):
+        a, b = map(lambda x: int(x)-1, input().split())
+        adj[a].append(b)
+        adj[b].append(a)
 
+    r = Rerooting(adj, n, mod)
+    r.calc_subtree()
+    dp = r.root_subtree()
 
-# 深さ優先探索
-def DFS(adj):
-    stack = [0]
-    parent = [-1] * (n)
-    while stack:
-        node = stack.pop()
-        for child in adj[node]:
-            if parent[node] == child:
-                continue
-            stack.append(child)
-            parent[child] = node
-    return -1
+    for ans in dp:
+        print(ans)
 
 
-# 幅優先探索
-def BFS(adj):
-    que = [0]
-        parent = [-1] * (n)
-        while que:
-            node = que.pop(0)
-            for child in adj[node]:
-                if parent[node] == child:
-                    continue
-                if parent[child] == -1:
-                    que.append(child)
-                    parent[child] = node
-    return -1
-
-def gcd(x,y):
-    r = x%y
-    if 
-    return gcd(y, r)
-
-def modinv(a,p):
-    return pow(a, p-2, p)
+if __name__ == '__main__':
+    main()
