@@ -108,3 +108,40 @@ def gcd(x,y):
 
 def modinv(a,p):
     return pow(a, p-2, p)
+
+def factorization(n):
+    arr = []
+    temp = n
+    for i in range(2, int(-(-n**0.5//1))+1):
+        if temp%i==0:
+            cnt=0
+            while temp%i==0:
+                cnt+=1
+                temp //= i
+            arr.append([i, cnt])
+
+    if temp!=1:
+        arr.append([temp, 1])
+
+    if arr==[]:
+        arr.append([n, 1])
+
+    return arr
+
+# dfsの重複組み合わせバージョン
+def dfs(n,m):
+    adj = {}
+    for i in range(1,m+1):
+        adj[i] = [j for j in range(i,m+1)]
+    
+    stack = [[i] for i in range(1,m+1)]
+    combs = []
+    while stack:
+        node = stack.pop()
+        if len(node) == n:
+            combs.append(node)
+        else:
+            for child in adj[node[-1]]:
+                cand = node+[child]
+                stack.append(cand)
+    return combs
