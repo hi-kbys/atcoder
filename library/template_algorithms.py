@@ -9,13 +9,16 @@ class Combination():
         self.invfac[n] = pow(self.fac[n], self.mod - 2, self.mod)
         for i in range(n-1, 0, -1):
             self.invfac[i] = self.invfac[i+1] * (i+1) % self.mod
-    
+
     def combination(self, n, r):
         return self.fac[n] * self.invfac[r] % self.mod * self.invfac[n-r] % self.mod
-    
+
+    def permutation(self, n, r):
+        return self.factorial(n) * self.invfactorial(n-r) % self.mod
+
     def factorial(self, i):
         return self.fac[i]
-    
+
     def invfactorial(self, i):
         return self.invfac[i]
 
@@ -23,7 +26,7 @@ class Combination():
 # 全方位木dp, 適宜計算用のクラスを継承して使用する。
 class Rerooting():
     def __init__(self, adjacent):
-        #super(Rerooting, self).__init__(n, mod)
+        # super(Rerooting, self).__init__(n, mod)
         self.n = n
         self.adj = adjacent   # 0-indexedの配列で用意！
         # DFSで行きがけ順を記録
@@ -64,8 +67,9 @@ class Rerooting():
             self.remerge(p, node)
         return self.dp
 
-# 01での全探索
+
 def bit_search(N):
+    # 01での全探索
     for i in range(2**N):
         for j in range(N):
             # bit 演算！j桁ずらしている。
@@ -88,11 +92,12 @@ def DFS(adj):
 
 
 # 幅優先探索
+from collections import deque
 def BFS(adj):
-    que = [0]
+    que = deque([0])
         parent = [-1] * (n)
         while que:
-            node = que.pop(0)
+            node = que.popleft()
             for child in adj[node]:
                 if parent[node] == child:
                     continue
@@ -103,7 +108,8 @@ def BFS(adj):
 
 def gcd(x,y):
     r = x%y
-    if 
+    if r==0:
+        return y
     return gcd(y, r)
 
 def modinv(a,p):
@@ -145,3 +151,108 @@ def dfs(n,m):
                 cand = node+[child]
                 stack.append(cand)
     return combs
+
+# Union Find木クラス
+class UnionFind():
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.height = [0]*n
+
+    def get_root(self, i):
+        if parent[i] == i:
+            return i
+        else:
+            self.parent[i] = self.get_root(self.parent[i])
+            return self.parent[i]
+        
+    def unite(self, i, j):
+        root_i = self.get_root(i)
+        root_j = self.get_root(j)
+        if root_i != root_j:
+            if self.height[root_i] < self.height[root_j]:
+                self.parent[root_i] = root_j
+            else:
+                self.parent[root_j] = root_i
+                if self.height[root_i] == self.height[root_j]:
+                    self.height[root_i] += 1
+    
+    def is_in_group(self, i, j):
+        if parent[i] == parent[j]:
+            return True
+        else:
+            return False
+
+import sys
+class UnionFind():
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.height = [0]*n
+
+    def get_root(self, i):
+        if self.parent[i] == i:
+            return i
+        else:
+            self.parent[i] = self.get_root(self.parent[i])
+            return self.parent[i]
+        
+    def unite(self, i, j):
+        root_i = self.get_root(i)
+        root_j = self.get_root(j)
+        if root_i != root_j:
+            if self.height[root_i] < self.height[root_j]:
+                self.parent[root_i] = root_j
+            else:
+                self.parent[root_j] = root_i
+                if self.height[root_i] == self.height[root_j]:
+                    self.height[root_i] += 1
+    
+    def is_in_group(self, i, j):
+        if self.get_root(i) == self.get_root(j):
+            return True
+        else:
+            return False
+
+    
+    def kruskal(n, edge_list):
+        '''
+        edge_list: [edge0, edge1, cost]
+        '''
+        edge_list.sort(key = lambda x: x[2])
+        uf_tree = UnionFind(n)
+        mst = []
+        cost = 0
+        for edge in edge_list:
+            if not uf_tree.is_in_group(edge[0], edge[1]):
+                uf_tree.unite(edge[0], edge[1])
+                mst.append(edge[:2])
+                cost += edge[2]
+        return mst, cost
+    
+    from heapq import heappop, heappush
+
+    def prim(n, e_list):
+        edges_from = [[] for i in range(n)]
+        for e in e_list:
+            edges_from[e[0]].append([e[2], e[0], e[1]])
+            edges_from[e[1]].append([e[2], e[1], e[0]])
+        e_heapq = []
+        included = [False]*n
+        mst = []
+        cost = 0
+        included[0] = True
+        for e in edges_from[0]:
+            heappush(e_heapq, e)
+        while e_heapq:
+            # print(e_heapq)
+            c, *e = heappop(e_heapq)
+            if not included[e[1]]:
+                included[e[1]] = True
+                mst.append(e)
+                cost += c
+                for child in edges_from[e[1]]:
+                    heappush(e_heapq, child)
+        mst.sort()
+        return mst, cost
+    
+    def dijkstra(s, e_list):
+        

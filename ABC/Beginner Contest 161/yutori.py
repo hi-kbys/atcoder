@@ -1,34 +1,35 @@
-import sys
-def yutori():
-    N, K, C = map(int,sys.stdin.readline().split())
-    S = [i for i in sys.stdin.readline()]
-    l = [i+1 for i in range(N) if S[i] == 'o']
-    Left = []
-    Right = []
-    for u in l:
-        if Left == []:
-            Left.append(u)
-        if u > Left[-1] + C:
-            Left.append(u)
-        if len(Left) == K:
-            break
+def main():
+    import sys
+    def input(): return sys.stdin.readline().rstrip()
+    n, k, c = map(int, input().split())
+    s = [True if i == 'o' else False for i in input()]
+    L = [0]*k
+    R = [0]*k
+    # 右から貪欲法
+    i = n-1
+    now = k-1
+    while 0 <= now:
+        if s[i]:
+            R[now] = i
+            i -= c
+            now -= 1
+        i -= 1
+    # 　左から貪欲
+    i = 0
+    now = 0
+    while now < k:
+        if s[i]:
+            L[now] = i
+            # rangeが一致しているなら出力
+            if L[now] == R[now]:
+                print(i+1)
+            i += c
+            now += 1
+        i += 1
 
-    if len(Left) <K:
-        exit()
+        
 
-    for u in l[::-1]:
-        if Right== []:
-            Right.append(u)
-        if u < Right[-1] - C:
-            Right.append(u)
-        if len(Right) == K:
-            break
 
-    if len(Right) <K:
-            exit()
-    
-    for i in range(K):
-        if Left[i] == Right[-i-1]:
-            print(Left[i])
 
-yutori()
+if __name__ == '__main__':
+    main()

@@ -1,22 +1,19 @@
-import numpy as np
-N, M = map(int,input().split())
-H = np.array(list(map(int,input().split())))
+def main():
+    import sys
+    def input(): return sys.stdin.readline().rstrip()
+    n, m = map(int, input().split())
+    h = list(map(int, input().split()))
+    height = [0]*n
+    for i in range(m):
+        a, b = map(lambda x: int(x)-1, input().split())
+        height[a] = max(height[a], h[b])
+        height[b] = max(height[b], h[a])
+    
+    count = 0
+    for i, j in zip(h, height):
+        if i > j:
+            count += 1
+    print(count)
 
-adj = [[] for _ in range(N)]
-
-for _ in range(M):
-    a,b = map(lambda x: int(x) -1 ,input().split())
-    if a in adj[b]:
-        continue
-    adj[a].append(b)
-    adj[b].append(a)
-
-ans = 0 
-for i, item in enumerate(adj):
-     if item == []:
-         ans+=1
-         continue
-     adj_max = max(H[item])
-     if H[i] > adj_max:
-         ans += 1
-print(ans)
+if __name__ == '__main__':
+    main()

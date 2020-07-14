@@ -1,0 +1,10 @@
+def main():
+    import sys
+    def input(): return sys.stdin.readline().rstrip()
+    n, k = map(int, input().split())
+    p = list(map(int, input().split()))
+    p.sort()
+    print(sum(p[:k]))
+
+if __name__ == '__main__':
+    main()
