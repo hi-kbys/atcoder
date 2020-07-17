@@ -10,7 +10,11 @@ class Combination():
             self.invfac[i] = self.invfac[i+1] * (i+1) % self.mod
     
     def combination(self, n, r):
-        return self.fac[n] * self.invfac[r] % self.mod * self.invfac[n-r] % self.mod if n>= r else 0
+        ans = self.fac[n] * self.invfac[r] % self.mod * self.invfac[n-r] % self.mod
+        if n >= r:
+            return ans
+        else:
+            return 0
     
     def factorial(self, i):
         return self.fac[i]
@@ -26,13 +30,15 @@ def main():
     mod = 998244353
     c = Combination(n,mod)
     ans = 0
-    inv = pow(m-1,mod-2,mod)
-    rem = pow(m-1, n-1, mod)
+    mex = [0]*(k+1)
+    mex[0] = pow(m-1,n-k-1,mod)
+    # inv(m-1)だとおそらく計算誤差が生じる。
+    for i in range(1,k+1):
+        mex[i] = mex[i-1]*(m-1)%mod
+    mex = mex[::-1]
     for i in range(k+1):
-        ans += c.combination(n-1, i)*rem
+        ans += c.combination(n-1, i)*mex[i]
         ans %= mod
-        rem *= inv
-        rem %= mod
     ans *= m
     ans %= mod
     print(ans)

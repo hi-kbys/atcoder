@@ -1,5 +1,5 @@
-from heapq import heappop, heappush 
 from collections import deque
+# bfs版のダイクストラ法O(HW)
 def dijkstra(xs, ys, xg, yg,h,w,k,field):
     # que->(cost, x, y, direction)
     inf = 1e18
@@ -19,7 +19,7 @@ def dijkstra(xs, ys, xg, yg,h,w,k,field):
                 ny += dy[v]
                 if not field[nx][ny]:
                     break
-                if dist[nx][ny]<=dist[x][y]:
+                if dist[nx][ny] <= dist[x][y]:
                     break
                 if dist[nx][ny] > dist[x][y]+1:
                     dist[nx][ny] = dist[x][y]+1
