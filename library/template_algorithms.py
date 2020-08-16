@@ -1,3 +1,5 @@
+from heapq import heappop, heappush
+from collections import deque
 # 階乗の計算をmodで割る
 class Combination():
     def __init__(self, n, mod=10**9+7):
@@ -90,9 +92,7 @@ def DFS(adj):
             parent[child] = node
     return -1
 
-
 # 幅優先探索
-from collections import deque
 def BFS(adj):
     que = deque([0])
         parent = [-1] * (n)
@@ -159,36 +159,6 @@ class UnionFind():
         self.height = [0]*n
 
     def get_root(self, i):
-        if parent[i] == i:
-            return i
-        else:
-            self.parent[i] = self.get_root(self.parent[i])
-            return self.parent[i]
-        
-    def unite(self, i, j):
-        root_i = self.get_root(i)
-        root_j = self.get_root(j)
-        if root_i != root_j:
-            if self.height[root_i] < self.height[root_j]:
-                self.parent[root_i] = root_j
-            else:
-                self.parent[root_j] = root_i
-                if self.height[root_i] == self.height[root_j]:
-                    self.height[root_i] += 1
-    
-    def is_in_group(self, i, j):
-        if parent[i] == parent[j]:
-            return True
-        else:
-            return False
-
-import sys
-class UnionFind():
-    def __init__(self, n):
-        self.parent = [i for i in range(n)]
-        self.height = [0]*n
-
-    def get_root(self, i):
         if self.parent[i] == i:
             return i
         else:
@@ -212,47 +182,142 @@ class UnionFind():
         else:
             return False
 
-    
-    def kruskal(n, edge_list):
-        '''
-        edge_list: [edge0, edge1, cost]
-        '''
-        edge_list.sort(key = lambda x: x[2])
-        uf_tree = UnionFind(n)
-        mst = []
-        cost = 0
-        for edge in edge_list:
-            if not uf_tree.is_in_group(edge[0], edge[1]):
-                uf_tree.unite(edge[0], edge[1])
-                mst.append(edge[:2])
-                cost += edge[2]
-        return mst, cost
-    
-    from heapq import heappop, heappush
 
-    def prim(n, e_list):
-        edges_from = [[] for i in range(n)]
-        for e in e_list:
-            edges_from[e[0]].append([e[2], e[0], e[1]])
-            edges_from[e[1]].append([e[2], e[1], e[0]])
-        e_heapq = []
-        included = [False]*n
-        mst = []
-        cost = 0
-        included[0] = True
-        for e in edges_from[0]:
-            heappush(e_heapq, e)
-        while e_heapq:
-            # print(e_heapq)
-            c, *e = heappop(e_heapq)
-            if not included[e[1]]:
-                included[e[1]] = True
-                mst.append(e)
-                cost += c
-                for child in edges_from[e[1]]:
-                    heappush(e_heapq, child)
-        mst.sort()
-        return mst, cost
-    
-    def dijkstra(s, e_list):
+def kruskal(n, edge_list):
+    '''
+    edge_list: [edge0, edge1, cost]
+    '''
+    edge_list.sort(key=lambda x: x[2])
+    uf_tree = UnionFind(n)
+    mst = []
+    cost = 0
+    for edge in edge_list:
+        if not uf_tree.is_in_group(edge[0], edge[1]):
+            uf_tree.unite(edge[0], edge[1])
+            mst.append(edge[:2])
+            cost += edge[2]
+    return mst, cost
+
+
+def prim(n, e_list):
+    '''
+    e_list = [from, to, cost]
+    '''
+    edges_from = [[] for i in range(n)]
+    for e in e_list:
+        edges_from[e[0]].append([e[2], e[0], e[1]])
+        edges_from[e[1]].append([e[2], e[1], e[0]])
+    e_heapq = []
+    included = [False]*n
+    mst = []
+    cost = 0
+    included[0] = True
+    for e in edges_from[0]:
+        heappush(e_heapq, e)
+    while e_heapq:
+        # print(e_heapq)
+        c, *e = heappop(e_heapq)
+        if not included[e[1]]:
+            included[e[1]] = True
+            mst.append(e)
+            cost += c
+            for child in edges_from[e[1]]:
+                heappush(e_heapq, child)
+    mst.sort()
+    return mst, cost
+
+
+def dijkstra(s, e_list):
+    inf = 1 << 18
+    n = len(e_list)
+    dist = [inf]*(n)
+    dist[s] = 0
+    que = [(0, s)]
+    while que:
+        node, cost = heappop(que)
+        if cost > dist[node]:
+            continue
+        for v in e_list[node]:
+            if dist[v] > dist[node]+1:
+                dist[v] = dist[node]+1
+                heappush(que, (dist[v], v)) 
+    return dist
+
+class SegTree():
+    inf = 1 << 18
+    def __init__(self, arr, segfunc=min, ide_ele=inf):
+        '''
+        arr: 与えられた配列
+        segfunc: 区間に作用する関数
+        ide_ele: 単位元
+        num: n を超える初めの2の累乗
+        tree: size = 2*num のセグ木
+        計算量O(2n)
+        '''
+        n = len(arr)
+        self.segfunc = segfunc
+        self.ide_ele = ide_ele
+        self.num = 1 << (n-1).bit_length()
+        self.tree = [self.ide_ele]*2*num
+        for i in range(n):
+            self.tree[i+self.num] = arr[i]
+        for i in range(self.num-1, -1, -1):
+            self.tree[i] = self.segfunc(self.tree[2*i], self.tree[2*i+1])
         
+    def update(self, k, x):
+        '''
+        k : index
+        x : update value
+        '''
+        k += self.num
+        self.tree[k] = x
+        while k > 1:
+            self.tree[k>>1] = self.segfunc(self.tree[k], self.tree[k^1])
+            k >>= 1
+    
+    def query(self, l, r)
+        '''
+        区間[l, r)でsegfuncしたものを得る
+        '''
+        res = self.ide_ele
+        l += self.num
+        r += self.num
+        while l < r:
+            res = self.ide_ele
+            if l & 1:
+                res = self.segfunc(res, self.tree[l])
+            if r&1:
+                res = self.segfunc(res, self.tree[r-1])
+            l >>= 1
+            r >>= 1
+        return res
+
+class FenwickTree():
+    def __init__(self, n):
+        self.tree = [0]*(n+1)
+    
+    def sum(self, i):
+        '''
+        i: 1-indexed
+        bit(i)のうち最後に現れる1をi -= i&(-i)で消している。
+        '''
+        s = 0
+        while i > 0:
+            s += self.tree[i]
+            i -= i & -i
+        return s
+    
+    def add(self, i, x):
+        '''
+        i: 1-indexed
+        '''
+        while i <= n:
+            self.tree[i] += x
+            i += i % -i
+    
+    def query(self, l, r):
+        '''
+        区間[l, r]でのsumを返す。
+        l, r 1-indexed
+        '''
+        return sum(r)-sum(l-1)

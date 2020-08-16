@@ -3,79 +3,67 @@ def main():
 
     def input(): return sys.stdin.readline().rstrip()
 
-    def conv(s):
-        ret = []
-        for i in s:
-            if i == 'A':
-                ret.append(0)
-            elif i == 'B':
-                ret.append(1)
-            else:
-                ret.append(2)
-        return ret
-
-    def inv(i):
-        if i == 0:
-            return 'A'
-        elif i == 1:
-            return 'B'
+    def stoidx(s):
+        if s == 'AB':
+            return (0, 1)
+        elif s == 'BC':
+            return (1, 2)
         else:
-            return 'C'
+            return (0, 2)
+
 
     def answer(ans):
         print('Yes')
         for a in ans:
             print(a)
-        return -1
 
     def add_answer(x):
         if s[x[0]] > s[x[1]]:
             s[x[0]] -= 1
             s[x[1]] += 1
-            ans.append(inv(x[1]))
+            ans.append(abc[x[1]])
         else:
             s[x[0]] += 1
             s[x[1]] -= 1
-            ans.append(inv(x[0]))
+            ans.append(abc[x[0]])
         
     n, *s = map(int, input().split())
-    idx_list = []
-    for i in range(n):
-        idx_list.append(conv(input()))
-
+    sl = []
+    for _ in range(n):
+        sl.append(stoidx(input()))
+    abc = 'ABC'
     ans = []
     if sum(s) == 0:
         print('No')
-        exit(0)
+        return
 
     elif sum(s) == 1:
-        for x in idx_list:
-            if s[x[0]] == s[x[1]]:
-                print('No')
-                exit(0)
-            add_answer(x)
-        answer(ans)
-
-    else:
-        for i, x in enumerate(idx_list):
+        for x in sl:
             if s[x[0]] == 0 and s[x[1]] == 0:
                 print('No')
-                exit(0)
+                return
+            add_answer(x)
+
+    else:
+        for i, x in enumerate(sl):
+            if s[x[0]] == 0 and s[x[1]] == 0:
+                print('No')
+                return
                 
             if i < n-1 and s[x[0]] == 1 and s[x[1]] == 1:
-                nx = idx_list[i+1]
-                if x != nx:
+                nx = sl[i+1]
+                if x != nx and sum(s)==2:
                     if x[0] in nx:
                         s[x[0]] += 1
                         s[x[1]] -= 1
-                        ans.append(inv(x[0]))
+                        ans.append(abc[x[0]])
                     else:
                         s[x[0]] -= 1
                         s[x[1]] += 1
-                        ans.append(inv(x[1]))
-            else:
-                add_answer(x)
-        answer(ans)
+                        ans.append(abc[x[1]])
+                    continue
+            add_answer(x)
+    answer(ans)
 
 
 if __name__ == '__main__':
