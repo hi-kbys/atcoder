@@ -1,5 +1,4 @@
 #ignore input.txt
-input.txt
 *.code-workspace
 .vscode
 a.out
@@ -7,3 +6,6 @@ createfile.py
 aribon/
 atcoder
 test/
+env
+*.log
+*.json
