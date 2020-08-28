@@ -1,5 +1,7 @@
-from heapq import heappop, heappush
 from collections import deque
+from heapq import heappop, heappush
+
+
 # 階乗の計算をmodで割る
 class Combination():
     def __init__(self, n, mod=10**9+7):
