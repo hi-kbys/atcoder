@@ -4,19 +4,9 @@ using namespace std;
 #define repd(i, n) for (int i = n-1; i > -1; i--)
 #define repran(i, a,b) for (int i = a; i<b;i++)
 #define all(x) (x).begin(), (x).end()
-#define v(T) vector<T>
-#define vv(T) vector<v(T)>
 typedef long long ll;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vi> vvi;
-typedef vector<vll> vvll;
+typedef pair<int, int> P;
 
-
-// auto mod int
-// https://youtu.be/L8grWxBlIZ4?t=9858
-// https://youtu.be/ERZuLAxZffQ?t=4807 : optimize
-// https://youtu.be/8uowVvQ_-Mo?t=1329 : division
 const int mod = 1000000007;
 struct mint {
   ll x; // typedef long long ll;
@@ -47,27 +37,21 @@ struct mint {
   mint& operator/=(const mint a) { return *this *= a.inv();}
   mint operator/(const mint a) const { return mint(*this) /= a;}
 };
-istream& operator>>(istream& is, mint& a) { return is >> a.x;}
-ostream& operator<<(ostream& os, const mint& a) { return os << a.x;}
-
-
+// istream& operator>>(istream& is, mint& a) { return is >> a.x;}
+// ostream& operator<<(ostream& os, const mint& a) { return os << a.x;}
 int main()
 {
-    int n, k;
-    cin >> n >> k;
-    vv(mint) dp(n+1, v(mint)(k+1));
-    vv(mint) dps(n+1, v(mint)(k+1));
-    vi a(n);
-    repran(i, 1, n+1) cin >> a[i];
-    dp[0][0] = 1;
-    rep(i, k+1) dps[0][i] = 1;
-    repran(i, 1, n+1){
-        rep(j, k+1){
-            dp[i][j] = dps[i-1][j];
-            if (j-a[i]-1>=0) dp[i][j] -= dps[i-1][j-a[i]-1];
-            dps[i][j] = dp[i][j];
-            if (j > 0) dps[i][j] += dps[i][j-1];
-        }
+    int n;
+    cin >> n;
+    vector<ll> a(n);
+    rep(i, n) cin >> a[i];
+    mint ans = 0;
+    mint s = 0, t = 0;;
+    rep(i, n){
+        s += a[i];
+        t += a[i]*a[i];
     }
-    cout << dp[n][k] << endl;
+    ans = (s*s-t)/2;
+    cout << ans.x << endl;
+    
 }

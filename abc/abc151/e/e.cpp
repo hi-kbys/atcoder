@@ -1,5 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define fi first
+#define se second
 #define rep(i, n) for (int i=0; i < n; i++)
 #define repd(i, n) for (int i = n-1; i > -1; i--)
 #define repran(i, a,b) for (int i = a; i<b;i++)
@@ -7,11 +9,19 @@ using namespace std;
 #define v(T) vector<T>
 #define vv(T) vector<v(T)>
 typedef long long ll;
+typedef pair<int, int> P;
 typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
-
+template<class T>bool chmax(T &a, const T &b){
+    if (a < b) {a = b; return true;}
+    return false;
+}
+template<class T>bool chmin(T &a, const T &b){
+    if (a > b) {a = b; return true;}
+    return false;
+}
 
 // auto mod int
 // https://youtu.be/L8grWxBlIZ4?t=9858
@@ -50,24 +60,40 @@ struct mint {
 istream& operator>>(istream& is, mint& a) { return is >> a.x;}
 ostream& operator<<(ostream& os, const mint& a) { return os << a.x;}
 
+// combination mod prime
+// https://www.youtube.com/watch?v=8uowVvQ_-Mo&feature=youtu.be&t=1619
+struct combination {
+  vector<mint> fact, ifact;
+  combination(int n):fact(n+1),ifact(n+1) {
+    assert(n < mod);
+    fact[0] = 1;
+    for (int i = 1; i <= n; ++i) fact[i] = fact[i-1]*i;
+    ifact[n] = fact[n].inv();
+    for (int i = n; i >= 1; --i) ifact[i-1] = ifact[i]*i;
+  }
+  mint operator()(int n, int k) {
+    if (k < 0 || k > n) return 0;
+    return fact[n]*ifact[k]*ifact[n-k];
+  }
+}c(100050);
 
 int main()
 {
     int n, k;
     cin >> n >> k;
-    vv(mint) dp(n+1, v(mint)(k+1));
-    vv(mint) dps(n+1, v(mint)(k+1));
-    vi a(n);
-    repran(i, 1, n+1) cin >> a[i];
-    dp[0][0] = 1;
-    rep(i, k+1) dps[0][i] = 1;
-    repran(i, 1, n+1){
-        rep(j, k+1){
-            dp[i][j] = dps[i-1][j];
-            if (j-a[i]-1>=0) dp[i][j] -= dps[i-1][j-a[i]-1];
-            dps[i][j] = dp[i][j];
-            if (j > 0) dps[i][j] += dps[i][j-1];
-        }
+    vll a(n);
+    v(mint) s(n+1);
+    s[0] = (mint)0;
+    rep(i, n) cin >> a[i];
+    sort(all(a));
+    mint ans = 0;
+    rep(i, n) {
+        s[i+1] = s[i]+a[i];
     }
-    cout << dp[n][k] << endl;
+    for (int i = k;i <= n;i++){
+        ans += (s[n]-s[n-i+1]-s[i-1])*c(i-2, k-2);
+    }
+    cout << ans << endl;
+    
 }
+

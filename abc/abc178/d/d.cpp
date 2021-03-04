@@ -1,5 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define fi first
+#define se second
 #define rep(i, n) for (int i=0; i < n; i++)
 #define repd(i, n) for (int i = n-1; i > -1; i--)
 #define repran(i, a,b) for (int i = a; i<b;i++)
@@ -7,11 +9,19 @@ using namespace std;
 #define v(T) vector<T>
 #define vv(T) vector<v(T)>
 typedef long long ll;
+typedef pair<int, int> P;
 typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
-
+template<class T>bool chmax(T &a, const T &b){
+    if (a < b) {a = b; return true;}
+    return false;
+}
+template<class T>bool chmin(T &a, const T &b){
+    if (a > b) {a = b; return true;}
+    return false;
+}
 
 // auto mod int
 // https://youtu.be/L8grWxBlIZ4?t=9858
@@ -53,21 +63,16 @@ ostream& operator<<(ostream& os, const mint& a) { return os << a.x;}
 
 int main()
 {
-    int n, k;
-    cin >> n >> k;
-    vv(mint) dp(n+1, v(mint)(k+1));
-    vv(mint) dps(n+1, v(mint)(k+1));
-    vi a(n);
-    repran(i, 1, n+1) cin >> a[i];
-    dp[0][0] = 1;
-    rep(i, k+1) dps[0][i] = 1;
-    repran(i, 1, n+1){
-        rep(j, k+1){
-            dp[i][j] = dps[i-1][j];
-            if (j-a[i]-1>=0) dp[i][j] -= dps[i-1][j-a[i]-1];
-            dps[i][j] = dp[i][j];
-            if (j > 0) dps[i][j] += dps[i][j-1];
+    int s;
+    cin >> s;
+    v(mint) dp(s+1, 0);
+    dp[0] = 1;
+    repran(i, 3, s+1){
+        repran(j, 3, i+1){
+            dp[i] += dp[i-j];
         }
     }
-    cout << dp[n][k] << endl;
+    cout << dp[s] << endl;
+    return 0;
 }
+

@@ -230,13 +230,13 @@ def prim(n, e_list):
 
 
 def dijkstra(s, e_list):
-    inf = 1 << 18
+    inf = 10**18
     n = len(e_list)
     dist = [inf]*(n)
     dist[s] = 0
     que = [(0, s)]
     while que:
-        node, cost = heappop(que)
+        cost, node = heappop(que)
         if cost > dist[node]:
             continue
         for v in e_list[node]:

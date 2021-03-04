@@ -20,18 +20,31 @@ template<class T>bool chmin(T &a, const T &b){
     if (a > b) {a = b; return true;}
     return false;
 }
-bool dp[110000];
+
+int dp[1000][4][2];
 int main()
 {
-    int n, k;
-    cin >> n>> k;
-    vi a(n);
-    rep(i, n) cin >> a[i];
-    rep(i, k+1){
-        for (int x : a){
-            if (i+x <=k and dp[i]==0) dp[i+x] = 1;
+    string s;
+    cin >> s;
+    int n = s.size();
+    int k; cin >> k;
+    dp[0][0][0] = 1;
+    rep(i, n){
+        int num = s[i]-'0';
+        rep(j, k+1) rep(v, 2){
+            rep(d, 10){
+                int nj = j, nk = k;
+                if (d!= 0) nj++;
+                if (nj > k) continue;
+                if (k==0) {
+                    if (d > num) continue;
+                    else if (d < num) nk++;
+                }
+                dp[i+1][nj][nk] += dp[i][j][k];
+            }
+
         }
     }
-    if (dp[k]) cout << "First" << endl;
-    else cout << "Second" << endl;
+    cout << dp[n][k][0]+dp[n][k][1] << endl;
 }
+

@@ -20,18 +20,30 @@ template<class T>bool chmin(T &a, const T &b){
     if (a > b) {a = b; return true;}
     return false;
 }
-bool dp[110000];
+
+int n, m;
+vvi g(100005);
+int memo[100005];
+int dp(int s){
+    if (g[s].size()==0) {return memo[s] = 0;}
+    if (memo[s] > 0) return memo[s];
+    int ret = 0;
+    for (int v : g[s]){
+        chmax(ret, dp(v)+1);
+    }
+    return memo[s] = ret;
+}
+
 int main()
 {
-    int n, k;
-    cin >> n>> k;
-    vi a(n);
-    rep(i, n) cin >> a[i];
-    rep(i, k+1){
-        for (int x : a){
-            if (i+x <=k and dp[i]==0) dp[i+x] = 1;
-        }
+    cin >> n >> m;
+    rep(i, m){
+        int a, b;
+        cin >> a >> b;
+        a--;b--;
+        g[a].push_back(b);
     }
-    if (dp[k]) cout << "First" << endl;
-    else cout << "Second" << endl;
+    int ans = 0;
+    rep(i, n) chmax(ans, dp(i));
+    cout << ans << endl;
 }
