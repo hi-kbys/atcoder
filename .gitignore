@@ -1,12 +1,2 @@
-#ignore input.txt
-*.code-workspace
-.vscode
-a.out
-createfile.py
-aribon/
-atcoder
-test/
-env
-*.log
-*.json
-__pycache__
+field/contests/
+tmp/
