@@ -1,2 +1,3 @@
 field/contests/
 tmp/
+.devcontainer/devcontainer.env
