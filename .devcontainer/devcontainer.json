@@ -14,7 +14,7 @@
 
     "appPort": [ 8501 ],
 
-    "postCreateCommand": "chmod 744 scripts/autologin.sh && ./scripts/autologin.sh",
+    "postCreateCommand": "chmod 700 scripts/autologin.sh && ./scripts/autologin.sh",
 
     "remoteUser": "vscode",
 

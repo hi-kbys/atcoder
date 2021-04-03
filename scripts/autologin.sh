@@ -1,4 +1,4 @@
-#!bin/bash 
+#!/bin/bash 
 expect -c "
 set timeout 5
 spawn oj login https://atcoder.jp
@@ -11,7 +11,6 @@ spawn acc login
 set timeout 5
 expect \"? username: \"
 send \"$ATCODER_USERNAME\n\"
-set timeout 1
 expect \"? password: \"
 send \"$ATCODER_PASSWORD\n\"
 interact
