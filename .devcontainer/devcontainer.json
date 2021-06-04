@@ -5,7 +5,7 @@
     "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
     "containerEnv": {"CPLUS_INCLUDE_PATH": "/workspaces/atcoder/ac-library"},
     "settings": { 
-        "terminal.integrated.shell.linux": "/bin/bash",
+        "terminal.integrated.defaultProfile.linux": "/bin/bash",
         "python.pythonPath": "/usr/local/bin/python",
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": true,
@@ -25,6 +25,7 @@
 		"vscode-icons-team.vscode-icons",
 		"ms-vscode.cpptools",
 		"austin.code-gnu-global",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "ms-vsliveshare.vsliveshare"
     ],
 }

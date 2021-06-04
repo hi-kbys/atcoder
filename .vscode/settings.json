@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "random": "cpp",
-        "ostream": "cpp"
-    }
+        "ostream": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp"
+    },
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
 }

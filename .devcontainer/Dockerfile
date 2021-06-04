@@ -14,6 +14,4 @@ RUN apt-get update \
     && npm install -g atcoder-cli
 WORKDIR /User/kobayashihiroyuki/atcoder
 COPY ./requirements.txt /tmp/
-RUN pip install -r /tmp/requirements.txt
-CMD ["rm", "/tmp/requirements.txt"]
-ENV PATH /home/vscode/.local/bin:$PATH
+RUN pip install -r /tmp/requirements.txt && rm /tmp/requirements.txt
