@@ -8,4 +8,4 @@ flake8
 jupyter==1.0.0
 matplotlib==3.4.1
 online-judge-tools==11.1.4
-streamlit==0.79.0
+streamlit==1.11.1
