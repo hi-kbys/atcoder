@@ -2,7 +2,7 @@
 "name": "Programming Competition",
     "context": "..",
     "dockerFile": "Dockerfile",
-    "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
+    // "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
     "containerEnv": {"CPLUS_INCLUDE_PATH": "/workspaces/atcoder/ac-library"},
     "settings": { 
         "terminal.integrated.defaultProfile.linux": "/bin/bash",
@@ -14,15 +14,18 @@
 
     "appPort": [ 8501 ],
 
-    "postCreateCommand": "chmod 700 scripts/autologin.sh && ./scripts/autologin.sh",
+    "remoteEnv": {
+        "ATCODER_USERNAME": "${localEnv:ATCODER_USERNAME}",
+        "ATCODER_PASSWORD": "${localEnv:ATCODER_PASSWORD}"
+    },
+    // "postCreateCommand": "chmod 700 scripts/autologin.sh && ./scripts/autologin.sh",
 
-    "remoteUser": "vscode",
+    // "remoteUser": "vscode",
 
     "extensions": [
 		"ms-python.python",
 		"coenraads.bracket-pair-colorizer-2",
 		"sanaajani.taskrunnercode",
-		"vscode-icons-team.vscode-icons",
 		"ms-vscode.cpptools",
 		"austin.code-gnu-global",
         "eamodio.gitlens",
