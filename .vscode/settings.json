@@ -5,7 +5,5 @@
         "chrono": "cpp",
         "complex": "cpp"
     },
-    "python.linting.pylintEnabled": true,
-    "python.linting.flake8Enabled": false,
-    "python.linting.enabled": true
+    "python.languageServer": "Pylance",
 }

@@ -7,9 +7,6 @@
     "settings": { 
         "terminal.integrated.defaultProfile.linux": "/bin/bash",
         "python.pythonPath": "/usr/local/bin/python",
-        "python.linting.enabled": true,
-        "python.linting.pylintEnabled": true,
-        "python.linting.pylintPath": "/usr/local/bin/pylint"
     },
 
     "appPort": [ 8501 ],
@@ -19,8 +16,6 @@
         "ATCODER_PASSWORD": "${localEnv:ATCODER_PASSWORD}"
     },
     // "postCreateCommand": "chmod 700 scripts/autologin.sh && ./scripts/autologin.sh",
-
-    // "remoteUser": "vscode",
 
     "extensions": [
 		"ms-python.python",

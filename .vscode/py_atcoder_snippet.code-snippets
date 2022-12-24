@@ -1,21 +1,21 @@
 {
 	"input_line int(single)":{
-		"prefix":"input",
+		"prefix":"int single",
 		"body":["int(input())"],
 		"description":"input int(single)",
 	},
 	"input_line int(multiple)":{
-		"prefix":"input",
+		"prefix":"int tuple",
 		"body":["map(int,input().split())"],
 		"description":"input int(multiple)",
 	},
 	"input_line list(int)":{
-		"prefix":"input",
+		"prefix":"list int",
 		"body":["list(map(int,input().split()))"],
 		"description":"input list(int)",
 	},
 	"input_line list(str)":{
-		"prefix":"input",
+		"prefix":"list str",
 		"body":["input().split()"],
 		"description":"input list(int)",
 	},

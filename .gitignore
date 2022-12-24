@@ -2,6 +2,7 @@ field/
 tmp/
 .devcontainer/devcontainer.env
 input
+contests
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
