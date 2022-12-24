@@ -1,0 +1,9 @@
+[codestyle]
+indent_type='space' # 'tab' or 'space'
+indent_width=4
+workspace_dir='/workspaces/atcoder/contests'
+lang='python' # Check README.md for the supported languages.
+[tester]
+compile_before_testing=true
+compile_only_when_diff_detected=true
+timeout_adjustment=1.2

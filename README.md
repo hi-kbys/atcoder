@@ -1,15 +1,26 @@
 # 概要
-これは[yamatia](https://github.com/yamatia/atcoder_docker_sample)さんのコードを自分用に改変したものである。
-詳しくはこの方のREADMを読んでください。
+Atcoderのpythonによる実行環境をGithub Codespacesで展開するためのリポジトリ。
 
-# 前提となる環境
-1. dockerがインストールされていること。
-1. vscode、及び拡張機能Remote Containerがインストールされていること。
-# 改造点
-* ac-libraryの導入
-* [atcoder-cli](https://www.npmjs.com/package/atcoder-cli)の導入.自動でコンテストのファイルを作成してくれます。便利。
-* online-judge-tools 及び　atcoder-cliへの自動ログイン
-# 注意点
-* 一応自分の環境でうまくいっているバージョンをrequirements.txtに記述しています。依存関係でエラーがでた場合は適宜変えてください。
-* devcontainer.jsonでac-libraryへのパスをCPLUS_INCLUDE_PATHで指定しています。ac-libraryが読み込まれないなぁという場合はここのパスを変えてdocker imageをリビルドすると良いかもです。
-* .devcontainer/devcontainer.envというファイルにatcoderへのログイン情報を記述するようにして下さい。一応gitignoreで排除してますが、絶対githubにはあげないようにしてください。もっと安全でいい感じのログイン自動化があれば教えて欲しいです。
+# 使い方
+## 初期設定
+`/workspaces/atcoder/`以下に`mkdir contests`でフォルダを作成する。
+Github Codespaces以外の環境で作成している場合は`{workspacefolder}/contests`となるようにフォルダを作成し、
+`atcodettools.toml`を以下のように書き換える。
+```toml
+[codestyle]
+indent_type='space' # 'tab' or 'space'
+indent_width=4
+workspace_dir='{workspacefolder}/contests'
+```
+
+## 問題のダウンロード
+以下のコードを実行すればOK
+```
+atcodertools gen {contestname} --config /path/to.atcodertools.toml
+```
+
+## 問題の提出
+参考に書いてあるリンクの指示にしたがって提出すれば大丈夫（なはず）
+# 参考
+- [ac-library-python](https://github.com/not522/ac-library-python)
+- [atcoder-tools](https://github.com/kyuridenamida/atcoder-tools)
