@@ -4,10 +4,7 @@
     "dockerFile": "Dockerfile",
     // "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
     "containerEnv": {"CPLUS_INCLUDE_PATH": "/workspaces/atcoder/ac-library"},
-    "settings": { 
-        "terminal.integrated.defaultProfile.linux": "/bin/bash",
-        "python.pythonPath": "/usr/local/bin/python",
-    },
+
 
     "appPort": [ 8501 ],
 
@@ -16,14 +13,20 @@
         "ATCODER_PASSWORD": "${localEnv:ATCODER_PASSWORD}"
     },
     // "postCreateCommand": "chmod 700 scripts/autologin.sh && ./scripts/autologin.sh",
-
-    "extensions": [
-		"ms-python.python",
-		"coenraads.bracket-pair-colorizer-2",
-		"sanaajani.taskrunnercode",
-		"ms-vscode.cpptools",
-		"austin.code-gnu-global",
-        "eamodio.gitlens",
-        "ms-vsliveshare.vsliveshare"
-    ],
+    "customizations": {
+        "vscode": {
+            "settings": { 
+            },
+            "extensions": [
+                "ms-python.python",
+                "sanaajani.taskrunnercode",
+                "ms-vscode.cpptools",
+                "austin.code-gnu-global",
+                "eamodio.gitlens",
+                "ms-vsliveshare.vsliveshare",
+                "github.copilot"
+            ]
+        },
+        "codespaces": {}
+    },
 }

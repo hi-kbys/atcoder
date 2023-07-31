@@ -1,13 +1,13 @@
 FROM python:3.8.2
 
-ENV POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_CREATE=false \
-    \
-    PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100 \
-    \
-    PYSETUP_PATH="/opt/pysetup"
+ENV POETRY_HOME="/opt/poetry"
+#     POETRY_VIRTUALENVS_CREATE=false \
+#     \
+#     PIP_NO_CACHE_DIR=off \
+#     PIP_DISABLE_PIP_VERSION_CHECK=on \
+#     PIP_DEFAULT_TIMEOUT=100 \
+#     \
+#     PYSETUP_PATH="/opt/pysetup"
 
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
@@ -19,7 +19,7 @@ RUN apt-get -y update && \
 RUN curl -sSL https://install.python-poetry.org/ | python3 -
 
 # # install requirements
-RUN poetry config virtualenvs.create false
+RUN poetry config virtualenvs.in-project true
 COPY pyproject.toml poetry.lock ./
 RUN poetry install
 
