@@ -1,41 +1,29 @@
 {
-"name": "Programming Competition",
-    "context": "..",
-    "dockerFile": "Dockerfile",
-    "containerEnv": {
-        "CPLUS_INCLUDE_PATH": "/workspaces/atcoder/ac-library"
+    "name": "Programming Competition",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
+    "features": {
+        "ghcr.io/va-h/devcontainers-features/uv:1": {},
+        "ghcr.io/devcontainers/features/git": "latest"
     },
-
-
-    "appPort": [ 8501 ],
-
-    "remoteEnv": {
-        "ATCODER_USERNAME": "${localEnv:ATCODER_USERNAME}",
-        "ATCODER_PASSWORD": "${localEnv:ATCODER_PASSWORD}",
-    },
+    "postCreateCommand": [
+        "uv sync"
+    ],
     "customizations": {
         "vscode": {
-            "settings": { 
+            "settings": {
                 "[python]": {
-                    // 拡張機能のBlack Formatterを使う場合には必ず指定する
-                    "editor.defaultFormatter": "ms-python.black-formatter",
-            
+                    // 拡張機能のRuffleを無効化する場合
+                    "editor.defaultFormatter": "charliermarsh.ruff",
                     // ファイルの保存時にフォーマットを自動実行する場合
                     "editor.formatOnSave": true
                 }
             },
             "extensions": [
                 "ms-python.python",
-                "sanaajani.taskrunnercode",
-                "ms-vscode.cpptools",
-                "austin.code-gnu-global",
-                "eamodio.gitlens",
-                "ms-vsliveshare.vsliveshare",
+                "charliermarsh.ruff",
                 "github.copilot",
-                "ms-python.black-formatter",
-                "ms-python.isort"
+                "eamodio.gitlens"
             ]
         },
-        "codespaces": {}
     }
 }
