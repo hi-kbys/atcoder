@@ -1,29 +1,21 @@
 {
     "name": "Programming Competition",
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11",
+    "image": "python:3.11",
     "features": {
         "ghcr.io/va-h/devcontainers-features/uv:1": {},
-        "ghcr.io/devcontainers/features/git": "latest"
+        "ghcr.io/devcontainers/features/git:1": {}
     },
-    "postCreateCommand": [
-        "uv sync"
-    ],
     "customizations": {
         "vscode": {
-            "settings": {
-                "[python]": {
-                    // 拡張機能のRuffleを無効化する場合
-                    "editor.defaultFormatter": "charliermarsh.ruff",
-                    // ファイルの保存時にフォーマットを自動実行する場合
-                    "editor.formatOnSave": true
-                }
-            },
             "extensions": [
                 "ms-python.python",
-                "charliermarsh.ruff",
+                "redhat.vscode-yaml",
+                "eamodio.gitlens",
+                "github.copilot-chat",
                 "github.copilot",
-                "eamodio.gitlens"
+                "charliermarsh.ruff"
             ]
-        },
-    }
+        }
+    },
+    "postAttachCommand": "uv sync"
 }
