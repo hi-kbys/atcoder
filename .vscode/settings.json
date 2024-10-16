@@ -1,14 +1,8 @@
 {
-    "files.associations": {
-        "random": "cpp",
-        "ostream": "cpp",
-        "chrono": "cpp",
-        "complex": "cpp"
-    },
     "python.languageServer": "Pylance",
     "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter"
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
     },
-    "python.formatting.provider": "none",
     "python.analysis.typeCheckingMode": "basic",
 }
